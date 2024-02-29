@@ -10,6 +10,8 @@ export class App extends gfx.GfxApp
 {
     private cameraControls: gfx.OrbitControls;
 
+    private character: gfx.Node3;
+
     // --- Create the App class ---
     constructor()
     {
@@ -17,6 +19,8 @@ export class App extends gfx.GfxApp
         super();
 
         this.cameraControls = new gfx.OrbitControls(this.camera);
+
+        this.character = new gfx.Node3();
     }
 
 
@@ -35,7 +39,7 @@ export class App extends gfx.GfxApp
         const ambientLight = new gfx.AmbientLight(new gfx.Color(0.25, 0.25, 0.25));
         this.scene.add(ambientLight);
 
-        // Create a directional light
+        // Create a point light
         const pointLight = new gfx.PointLight(new gfx.Color(1.25, 1.25, 1.25));
         pointLight.position.set(2, 1, 3)
         this.scene.add(pointLight);
@@ -45,6 +49,13 @@ export class App extends gfx.GfxApp
         ground.material.setColor(new gfx.Color(0, 0.5, 0.5));
         ground.position.y = -0.5;
         this.scene.add(ground);
+
+        const mesh = gfx.MeshLoader.loadOBJ('./assets/LinkBody1.obj');
+        const material = new gfx.GouraudMaterial();
+        material.texture = new gfx.Texture('./assets/LinkBody.png');
+        mesh.material = material;
+        this.character.add(mesh);
+        this.scene.add(this.character);
     }
 
     
